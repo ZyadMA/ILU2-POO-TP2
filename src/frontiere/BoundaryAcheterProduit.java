@@ -10,6 +10,7 @@ public class BoundaryAcheterProduit {
 	}
 
 	public void acheterProduit(String nomAcheteur) {
-		// TODO à completer
+		String produit = Clavier.entrerChaine("Quel produit voulez vous acheter ?");
+		controlAcheterProduit.acheterProduit(produit);
 	}
 }

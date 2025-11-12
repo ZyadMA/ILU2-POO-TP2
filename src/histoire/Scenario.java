@@ -1,4 +1,4 @@
-package histoire;
+3package histoire;
 
 import controleur.ControlAcheterProduit;
 import controleur.ControlAfficherMarche;
