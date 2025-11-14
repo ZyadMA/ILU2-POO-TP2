@@ -13,10 +13,11 @@ class VillageTest {
 	private Village village;
 	private Chef kira;
 	private Gaulois josuke = new Gaulois("Josuke",5);
+	private Gaulois koichi = new Gaulois("Koichi",3);
 	
 	@BeforeEach
 	public void initialiserSituation() {
-		village = new Village("Morio", 10, 5);
+		village = new Village("Morio", 10, 3);
 		kira = new Chef("Kira", 10, village);
 		village.setChef(kira);
 		
@@ -56,7 +57,6 @@ class VillageTest {
 
 	@Test
 	void testDonnerVillageois() {
-		Gaulois koichi = new Gaulois("Koichi",3);
 		village.ajouterHabitant(josuke);
 		village.ajouterHabitant(koichi);
 		assertNotNull(village.donnerVillageois());
@@ -65,37 +65,64 @@ class VillageTest {
 
 	@Test
 	void testDonnerNbEtal() {
-		fail("Not yet implemented");
+		assertEquals(village.donnerNbEtal(),3);
+		
 	}
 
 	@Test
 	void testInstallerVendeur() {
-		fail("Not yet implemented");
+		assertEquals(village.installerVendeur(josuke, "Crazy Diamond", 1),0);
+		assertEquals(village.installerVendeur(koichi, "Echoes", 1),1);
+		
 	}
 
 	@Test
 	void testPartirVendeur() {
-		fail("Not yet implemented");
+		village.installerVendeur(josuke, "Crazy Diamond", 1);
+		village.installerVendeur(koichi, "Echoes", 1);
+		assertEquals(village.donnerEtatMarche().length/3 , 2);
+		village.partirVendeur(josuke);
+		assertEquals(village.donnerEtatMarche().length/3 , 1);
+		assertFalse(village.rechercherEtal(josuke).isEtalOccupe());
 	}
 
 	@Test
 	void testRechercherEtalVide() {
-		fail("Not yet implemented");
+		Gaulois jotaro = new Gaulois("Jotaro",10);
+		village.installerVendeur(jotaro, "Star Platinum", 1);
+		village.installerVendeur(josuke, "Crazy Diamond", 1);
+		village.installerVendeur(koichi, "Echoes", 1);
+		
+		assertFalse(village.rechercherEtalVide());
+		village.partirVendeur(josuke);
+		assertTrue(village.rechercherEtalVide());
 	}
 
 	@Test
 	void testRechercherVendeursProduit() {
-		fail("Not yet implemented");
+		village.installerVendeur(josuke, "Crazy Diamond", 1);
+		assertEquals(village.rechercherVendeursProduit("Crazy Diamond")[0],josuke);
 	}
 
 	@Test
 	void testRechercherEtal() {
-		fail("Not yet implemented");
+		assertNull(village.rechercherEtal(josuke));
+		village.installerVendeur(josuke, "Crazy Diamond", 1);
+		assertNotNull(village.rechercherEtal(josuke));
 	}
 
 	@Test
 	void testDonnerEtatMarche() {
-		fail("Not yet implemented");
+		assertEquals(village.donnerEtatMarche().length,0);
+		village.installerVendeur(josuke, "Crazy Diamond", 5);
+		assertEquals(village.donnerEtatMarche().length,3);
+		assertEquals(village.donnerEtatMarche()[0],"Josuke");
+		assertEquals(village.donnerEtatMarche()[1],"5");
+		assertEquals(village.donnerEtatMarche()[2],"Crazy Diamond");
 	}
 
 }
+
+
+
+
